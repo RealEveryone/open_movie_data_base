@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+
+<form action="add-movie.html" method="post" enctype="multipart/form-data">
+    {{ form.as_p }}
+    {% csrf_token %}
+</form>

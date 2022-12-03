@@ -1,0 +1,9 @@
+<h2>Rating:
+    {% if average_rating < 3 %}
+        <span style="color: red">{{ average_rating|floatformat:2 }}</span>
+    {% elif average_rating > 3 and average_rating < 7 %}
+        <span style="color: yellow">{{ average_rating|floatformat:2 }}</span>
+    {% elif average_rating >= 7 %}
+        <span style="color: green">{{ average_rating|floatformat:2 }}</span>
+    {% endif %}
+</h2>

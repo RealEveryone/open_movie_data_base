@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block body %}
+    {% for obj in object_list %}
+        <div style="color: white">tittle = {{ obj.title }} by {{ request.user.moviedirector }}</div>
+
+    {% endfor %}
+{% endblock %}
