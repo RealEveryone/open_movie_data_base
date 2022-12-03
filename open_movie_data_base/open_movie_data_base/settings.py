@@ -1,3 +1,5 @@
+
+
 """
 Django settings for open_movie_data_base project.
 
