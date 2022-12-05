@@ -44,6 +44,7 @@ class MovieDirectorDetails(ProfileDetails):
         context['movie_count'] = movies.count
         context['likes'] = self.get_movie_likes()
         context['overall_rating'] = self.get_overall_rating()
+        context['recent_movies'] = self.get_directed_movies().order_by('uploaded_on')[:4]
 
         return context
 

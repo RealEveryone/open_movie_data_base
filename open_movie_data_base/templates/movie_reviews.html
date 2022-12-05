@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load user_profile_picture %}
+{% load cloudinary %}
+{% block body %}
+
+    <section>
+        <div class="container my-5 py-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12 col-lg-10">
+                    <div class="card text-dark">
+                        <div class="card-body p-4">
+                            <div style="padding-left: 730px;display: inline-block">
+                                <form action="">
+                                    <label for="">Sort by :
+                                        <select name="" id="">
+                                            <option value="likes">Likes</option>
+                                            <option value="posted_on">Latest</option>
+                                        </select>
+                                        <button class="btn btn-sm btn-danger"></button>
+                                    </label>
+
+                                </form>
+                            </div>
+                            <h4 class="mb-0">{{ movie.title }}</h4>
+                            <p class="fw-light mb-4 pb-2">Reviews section by users</p>
+                            {% for review in reviews %}
+                                <div class="d-flex flex-start">
+                                    {% if review.user|profile_picture %}
+                                        {% cloudinary review.user|profile_picture width="150" height="150" %}
+                                    {% else %}
+                                        <img class="rounded-circle shadow-1-strong me-3"
+                                             src="{% static 'images/user-profile.png' %}"
+                                             alt="avatar" width="150"
+                                             height="150"/>
+                                    {% endif %}
+                                    <div>
+                                        <h6 class="fw-bold mb-1"><a
+                                                href="{% url review.user|profile_details_url review.user|profile_slug %}">{{ review.user|profile_name }}</a>
+                                        </h6>
+                                        <div class="d-flex align-items-center mb-3">
+                                            <p class="mb-0">
+                                                {{ review.posted_on }}
+                                            </p>
+
+                                        </div>
+                                        <p class="mb-0">
+                                            Review score: <span class="badge bg-primary">{{ review.rating }}</span>
+                                        </p>
+                                        <p class="mb-0">
+                                            {{ review.review }}
+                                        </p>
+                                        <form action="{% url 'like-review' review.pk %}">
+                                            {% if review not in user_liked_reviews %}
+                                                <button class="btn btn-block btn-primary btn-sm"><i
+                                                        class="fa-thumbs-up">Like</i>
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-block btn-primary btn-sm"><i
+                                                        class="fa-thumbs-up">Dislike</i>
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                </div>
+                                <hr class="my-0"/>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

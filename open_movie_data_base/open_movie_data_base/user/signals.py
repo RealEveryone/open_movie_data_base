@@ -36,5 +36,5 @@ def create_profile_type_on_user_creation(instance, *args, **kwargs):
 
     elif type_of_user.is_regular_user:
         RegularUser(
-            user=instance, is_regular_user=True
+            user=instance
         ).save()

@@ -1,3 +1,4 @@
+{% load user_profile_picture %}
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -20,28 +21,17 @@
     {% if request.user.is_authenticated %}
         <ul class="navbar-nav ms-3">
 
-            {% if request.user.is_actor %}
                 <a class="nav-link d-flex align-items-center"
-                   href="{% url 'actor-details' request.user.actor.slug %}">Profile</a>
+                   href="{% url request.user|profile_details_url request.user|profile_slug %}">Profile</a>
 
-            {% endif %}
             {% if request.user.is_movie_director %}
 
-                <li class="nav-item" style="width: 65px;">
-                    <a class="nav-link d-flex align-items-center"
-                       href="{% url 'director-details' request.user.moviedirector.slug %}">Profile</a>
-                </li>
                 <li class="nav-item" style="width: 100px;">
                     <a class="nav-link d-flex align-items-center" href="{% url 'add-movie' %}">Add Movie</a>
                 </li>
                 <li class="nav-item" style="width: 100px;">
                     <a class="nav-link d-flex align-items-center" href="{% url 'my-movies' %}">My Movies</a>
                 </li>
-            {% endif %}
-            {% if request.user.is_regular_user %}
-                <a class="nav-link d-flex align-items-center me-2"
-                   href="{% url 'actor-details' request.user.regularuser.slug %}">Profile</a>
-
             {% endif %}
             <li class="nav-item" style="width: 150px;">
                 <a class="nav-link d-flex align-items-center " href="{% url 'favourite-movies' %}">

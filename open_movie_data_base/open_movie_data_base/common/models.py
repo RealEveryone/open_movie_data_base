@@ -25,6 +25,9 @@ class Review(models.Model):
     user = models.ForeignKey(
         UserModel, on_delete=models.CASCADE
     )
+    posted_on = models.DateField(
+        auto_now_add=True
+    )
 
 
 class AverageReviewScore(models.Model):
@@ -44,4 +47,13 @@ class Like(models.Model):
     )
     like_obj = models.ForeignKey(
         Movie, on_delete=models.CASCADE
+    )
+
+
+class ReviewLike(models.Model):
+    user = models.ForeignKey(
+        UserModel, on_delete=models.CASCADE
+    )
+    like_obj = models.ForeignKey(
+        Review, on_delete=models.CASCADE
     )

@@ -133,6 +133,19 @@ def movie_edit(request, slug):
     return render(request, 'movie/edit-movie.html', context=context)
 
 
+def movie_reviews(request, slug):
+    movie = Movie.objects.filter(slug=slug).get()
+    reviews = movie.review_set.all()
+
+    context = {
+        'movie': movie,
+        'reviews': reviews,
+        'is_banned': True,
+        'user_liked_reviews': request.user.reviewlike_set.all()
+    }
+    return render(request, 'movie_reviews.html', context)
+
+
 def get_movie_objects(ll):
     return [actor for actor in ll]
 

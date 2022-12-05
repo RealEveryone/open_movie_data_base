@@ -2,7 +2,7 @@ from django.db.models import Count
 from django.shortcuts import redirect
 from django.views import generic as views
 
-from open_movie_data_base.common.models import Like
+from open_movie_data_base.common.models import Like, Review, ReviewLike
 from open_movie_data_base.movie.models import Movie
 from open_movie_data_base.utils.func import get_user_favourite_movies
 
@@ -80,6 +80,22 @@ def like_func(request, pk):
 
     else:
         like = Like(like_obj=movie, user=request.user)
+        like.save()
+    referee = request.META.get('HTTP_REFERER')
+    return redirect(referee)
+
+
+def movie_reviews_likes(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('sign-in')
+    review = Review.objects.filter(pk=pk).get()
+    liked_obj = ReviewLike.objects.filter(like_obj_id=pk, user=request.user).first()
+
+    if liked_obj:
+        liked_obj.delete()
+
+    else:
+        like = ReviewLike(like_obj=review, user=request.user)
         like.save()
     referee = request.META.get('HTTP_REFERER')
     return redirect(referee)
