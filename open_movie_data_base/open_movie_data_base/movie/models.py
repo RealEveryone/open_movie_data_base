@@ -107,4 +107,4 @@ class Movie(models.Model):
         return super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ['release_date']
+        ordering = ['-uploaded_on']

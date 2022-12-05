@@ -98,4 +98,6 @@ def movie_reviews_likes(request, pk):
         like = ReviewLike(like_obj=review, user=request.user)
         like.save()
     referee = request.META.get('HTTP_REFERER')
-    return redirect(referee)
+    # return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
+
+    return redirect(referee + f'#{review.pk}')

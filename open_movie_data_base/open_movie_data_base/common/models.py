@@ -29,6 +29,9 @@ class Review(models.Model):
         auto_now_add=True
     )
 
+    class Meta:
+        ordering = ['-posted_on']
+
 
 class AverageReviewScore(models.Model):
     movie = models.OneToOneField(

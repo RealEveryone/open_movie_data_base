@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -12,7 +13,7 @@ from open_movie_data_base.common.models import AverageReviewScore
 from open_movie_data_base.movie.forms import AddMovieForm, MovieEditForm
 from open_movie_data_base.movie.mixins import MustBeMovieDirectorMixin
 from open_movie_data_base.movie.models import Movie
-from open_movie_data_base.utils.func import get_user_favourite_movies
+from open_movie_data_base.utils.func import get_user_favourite_movies, get_review_set_likes
 
 UserModel = get_user_model()
 
@@ -85,6 +86,7 @@ def movie_details(request, slug):
             review.save()
 
     context = {
+        'is_banned': True,
         'object': movie,
         'actors': get_movie_objects(movie.actors.all()),
         'genres': get_movie_objects(movie.genres.all()),
@@ -126,6 +128,7 @@ def movie_edit(request, slug):
         form = MovieEditForm(instance=movie)
 
     context = {
+        'is_banned': True,
         'user': user,
         'form': form,
         'edit': True
@@ -136,12 +139,20 @@ def movie_edit(request, slug):
 def movie_reviews(request, slug):
     movie = Movie.objects.filter(slug=slug).get()
     reviews = movie.review_set.all()
+    review_like_set = get_review_set_likes(request)
+
+    order_by = request.GET.get('order_by')
+    if order_by:
+        if order_by == 'likes':
+            reviews = reviews.annotate(likes=Count('reviewlike')).order_by('-likes', '-posted_on')
+        else:
+            reviews = reviews.order_by(order_by)
 
     context = {
         'movie': movie,
         'reviews': reviews,
         'is_banned': True,
-        'user_liked_reviews': request.user.reviewlike_set.all()
+        'user_liked_reviews': review_like_set
     }
     return render(request, 'movie_reviews.html', context)
 

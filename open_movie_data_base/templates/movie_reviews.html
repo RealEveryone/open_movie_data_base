@@ -13,7 +13,7 @@
                             <div style="padding-left: 730px;display: inline-block">
                                 <form action="">
                                     <label for="">Sort by :
-                                        <select name="" id="">
+                                        <select name="order_by" id="">
                                             <option value="likes">Likes</option>
                                             <option value="posted_on">Latest</option>
                                         </select>
@@ -25,7 +25,7 @@
                             <h4 class="mb-0">{{ movie.title }}</h4>
                             <p class="fw-light mb-4 pb-2">Reviews section by users</p>
                             {% for review in reviews %}
-                                <div class="d-flex flex-start">
+                                <div id="{{ review.id }}" class="d-flex flex-start">
                                     {% if review.user|profile_picture %}
                                         {% cloudinary review.user|profile_picture width="150" height="150" %}
                                     {% else %}
@@ -54,11 +54,11 @@
                                             {% if review not in user_liked_reviews %}
                                                 <button class="btn btn-block btn-primary btn-sm"><i
                                                         class="fa-thumbs-up">Like</i>
-                                                </button>
+                                                </button><span style="padding-left: 5px">likes: {{ review.reviewlike_set.all.count }}</span>
                                             {% else %}
                                                 <button class="btn btn-block btn-primary btn-sm"><i
                                                         class="fa-thumbs-up">Dislike</i>
-                                                </button>
+                                                </button><span style="padding-left: 5px">likes: {{ review.reviewlike_set.all.count }}</span>
                                             {% endif %}
                                         </form>
                                     </div>

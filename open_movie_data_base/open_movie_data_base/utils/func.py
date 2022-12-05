@@ -5,6 +5,13 @@ def get_user_favourite_movies(request):
         return [like.like_obj for like in like_set]
 
 
+def get_review_set_likes(request):
+    user = request.user
+    if user.is_authenticated:
+        like_set = user.reviewlike_set.all()
+        return [like.like_obj for like in like_set]
+
+
 def get_type_of_user(user):
     if user.is_movie_director:
         return user.moviedirector
