@@ -50,8 +50,8 @@ class Movie(models.Model):
     MOVIE_TITLE_ERROR_MSG = "Movie title may contain only latin letters, numbers, and dashes between characters."
     MOVIE_TITLE_VALIDATOR = CharValidator(MOVIE_TITLE_REGEX_PATTERN, MOVIE_TITLE_ERROR_MSG)
 
-    MOVIE_DESCRIPTION_MIN_LEN = 150
-    MOVIE_DESCRIPTION_MAX_LEN = 600
+    MOVIE_DESCRIPTION_MIN_LEN = 300
+    MOVIE_DESCRIPTION_MAX_LEN = 1200
 
     movie_director = models.ForeignKey(
         MovieDirector, on_delete=models.CASCADE

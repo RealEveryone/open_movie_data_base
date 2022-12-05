@@ -1,20 +1,30 @@
-<section style="color: #000; background-color: #f3f2f2;">
-
+{% load cloudinary %}
+{% load static %}
+{% load user_profile_picture %}
+<hr>
+<section style="background-color: black">
     <div class="container py-5">
 
-        <div class="row text-center">
+        <div style="margin: auto; width: 180px"><h3 style="color: white">Best Reviews</h3></div>
+        <div class="row text-center" style="padding-top: 20px">
             {% for review in reviews %}
 
                 <div class="col-md-4 mb-4 mb-md-0">
-                    <div class="card">
+                    <div class="card" style="background-color: darkred; color:white">
+                        Likes: {{ review.reviewlike_set.all.count }}
                         <div class="card-body py-4 mt-2">
                             <div class="d-flex justify-content-center mb-4">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp"
-                                     class="rounded-circle shadow-1-strong" width="100"
-                                     height="100"/>
+
+                                {% if review.user|profile_picture %}
+                                    {% cloudinary review.user|profile_picture %}
+                                {% else %}
+                                    <img src="{% static 'images/user-profile.png' %}"
+                                         class="rounded-circle shadow-1-strong" width="100"
+                                         height="100"/>
+                                {% endif %}
                             </div>
-                            <h5 class="font-weight-bold">{{ review.user }}</h5>
-                            <h6 class="font-weight-bold my-3">{{ review.user.type_of_user }}</h6>
+                            <h5 class="font-weight-bold" style="color: white">{{ review.user }}</h5>
+                            <h6 class="font-weight-bold my-3" style="color: white">{{ review.user.type_of_user }}</h6>
                             <ul class="list-unstyled d-flex justify-content-center">
                                 <li>
                                     <i class="fas fa-star fa-sm text-info"></i>
@@ -32,7 +42,7 @@
                                     <i class="fas fa-star-half-alt fa-sm text-info"></i>
                                 </li>
                             </ul>
-                            <p class="mb-2">
+                            <p class="mb-2" style="color: white">
                                 <i class="fas fa-quote-left pe-2"></i>
                                 {{ review.review }}
                             </p>
@@ -40,6 +50,11 @@
                     </div>
                 </div>
             {% endfor %}
+            <div style="margin: auto; width: 330px">
+                <form action="{% url 'movie-reviews' movie.slug %}">
+                    <button class="btn btn-danger btn-lg">see more</button>
+                </form>
+            </div>
 
         </div>
     </div>

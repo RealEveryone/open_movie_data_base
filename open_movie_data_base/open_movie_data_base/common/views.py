@@ -101,3 +101,8 @@ def movie_reviews_likes(request, pk):
     # return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
 
     return redirect(referee + f'#{review.pk}')
+
+
+def delete_movie_review(request, pk):
+    Review.objects.filter(pk=pk).delete()
+    return redirect(request.META.get('HTTP_REFERER'))

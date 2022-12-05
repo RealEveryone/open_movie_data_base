@@ -10,8 +10,11 @@
                 <div class="col-md-12 col-lg-10">
                     <div class="card text-dark">
                         <div class="card-body p-4">
-                            <div style="padding-left: 730px;display: inline-block">
-                                <form action="">
+                            <div style="display: inline-block">
+                                <h1 class="mb-0"><a href="{% url 'movie-details' movie.slug %}">{{ movie.title }}</a></h1>
+                            <p class="fw-light mb-4 pb-2">Reviews section by users</p>
+                                <form action="{% url 'movie-reviews' movie.slug %}" style="margin-top: -20px">
+
                                     <label for="">Sort by :
                                         <select name="order_by" id="">
                                             <option value="likes">Likes</option>
@@ -21,9 +24,10 @@
                                     </label>
 
                                 </form>
+
                             </div>
-                            <h4 class="mb-0">{{ movie.title }}</h4>
-                            <p class="fw-light mb-4 pb-2">Reviews section by users</p>
+                            <hr>
+
                             {% for review in reviews %}
                                 <div id="{{ review.id }}" class="d-flex flex-start">
                                     {% if review.user|profile_picture %}
@@ -42,23 +46,34 @@
                                             <p class="mb-0">
                                                 {{ review.posted_on }}
                                             </p>
+                                            {% if request.user == review.user %}
+                                                <div style="padding-left: 550px">
+                                                    <form action="{% url 'delete-review' review.pk %}" method="post">
+                                                        <button class="btn btn-danger btn-sm">delete</button>
+                                                        {% csrf_token %}
+                                                    </form>
+                                                </div>
+                                            {% endif %}
+
 
                                         </div>
-                                        <p class="mb-0">
+                                        <p class="mb-0" style="margin-top: -20px">
                                             Review score: <span class="badge bg-primary">{{ review.rating }}</span>
                                         </p>
                                         <p class="mb-0">
-                                            {{ review.review }}
+                                            Review: {{ review.review }}
                                         </p>
-                                        <form action="{% url 'like-review' review.pk %}">
+                                        <form action="{% url 'like-review' review.pk %}" style="padding-top: 20px">
                                             {% if review not in user_liked_reviews %}
                                                 <button class="btn btn-block btn-primary btn-sm"><i
                                                         class="fa-thumbs-up">Like</i>
-                                                </button><span style="padding-left: 5px">likes: {{ review.reviewlike_set.all.count }}</span>
+                                                </button>
+                                                <span style="padding-left: 5px">likes: {{ review.reviewlike_set.all.count }}</span>
                                             {% else %}
                                                 <button class="btn btn-block btn-primary btn-sm"><i
                                                         class="fa-thumbs-up">Dislike</i>
-                                                </button><span style="padding-left: 5px">likes: {{ review.reviewlike_set.all.count }}</span>
+                                                </button>
+                                                <span style="padding-left: 5px">likes: {{ review.reviewlike_set.all.count }}</span>
                                             {% endif %}
                                         </form>
                                     </div>

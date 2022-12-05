@@ -9,7 +9,7 @@ from django.views import generic
 from django.views.decorators.cache import cache_page
 
 from open_movie_data_base.common.forms import ReviewForm
-from open_movie_data_base.common.models import AverageReviewScore
+from open_movie_data_base.common.models import AverageReviewScore, Review
 from open_movie_data_base.movie.forms import AddMovieForm, MovieEditForm
 from open_movie_data_base.movie.mixins import MustBeMovieDirectorMixin
 from open_movie_data_base.movie.models import Movie
@@ -32,6 +32,11 @@ class AddMovie(LoginRequiredMixin, MustBeMovieDirectorMixin, generic.CreateView)
             movie=movie, total_sum_of_numbers=0
         ).save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_banned'] = True
+        return context
     # todo: find a way to save with signals ( you need to
     #  get current user
     #  in signal )
@@ -63,6 +68,12 @@ class MyMovies(LoginRequiredMixin, MustBeMovieDirectorMixin, generic.ListView):
         movie_director = self.request.user.moviedirector
         return super().get_queryset().filter(movie_director__exact=movie_director)
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['is_banned'] = True
+        context['user_favourite_movies'] = get_user_favourite_movies(self.request)
+        return context
+
 
 # @cache_page(60 * 1)
 def movie_details(request, slug):
@@ -91,7 +102,7 @@ def movie_details(request, slug):
         'actors': get_movie_objects(movie.actors.all()),
         'genres': get_movie_objects(movie.genres.all()),
         'average_rating': movie.averagereviewscore.score,
-        'reviews': get_movie_reviews(movie),
+        'reviews': movie.review_set.annotate(likes=Count('reviewlike')).order_by('-likes', 'posted_on')[:3],
         'form': form
     }
 
@@ -161,7 +172,7 @@ def get_movie_objects(ll):
     return [actor for actor in ll]
 
 
-def get_movie_reviews(movie):
+def get_movie_reviews_ordered_by_likes(movie):
     return movie.review_set.all()
 
 

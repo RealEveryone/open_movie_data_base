@@ -12,7 +12,7 @@ class Review(models.Model):
     MIN_RATING_NUM = 0.00
     MAX_RATING_NUM = 10.00
     ERR_MSG = f'Value must be between {MIN_RATING_NUM} and {MAX_RATING_NUM}'
-    REVIEW_MAX_LEN = 300
+    REVIEW_MAX_LEN = 600
     review = models.CharField(
         max_length=REVIEW_MAX_LEN
     )
