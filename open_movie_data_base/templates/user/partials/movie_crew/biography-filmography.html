@@ -1,0 +1,21 @@
+{# filmography and biography section #}
+<div class="mb-5">
+    <p class="lead fw-normal mb-1">Biography</p>
+    <div class="p-2" style="background-color: #f8f9fa;">
+        {% if object.biography %}
+            {{ object.biography }}
+        {% else %}
+            None added
+        {% endif %}
+    </div>
+</div>
+<div class="mb-5">
+    <p class="lead fw-normal mb-1">Filmography</p>
+    <div class="p-2" style="background-color: #f8f9fa;">
+        {% if object.filmography %}
+            {{ object.filmography }}
+        {% else %}
+            None added
+        {% endif %}
+    </div>
+</div>

@@ -63,12 +63,24 @@
                             {% include 'user/partials/movie_director/atributes.html' with overall_rating=overall_rating like=like movies_count=movies_count %}
                         {% endif %}
                         {% if object.user.is_actor %}
+                            {% include 'user/partials/actor/atributes.html' with stars_in=stars_in known_for=known_for %}
                         {% endif %}
+                        <hr>
                         {% if object.user.is_regular_user %}
                         {% endif %}
-                        {% if object.user.is_movie_director or object.user.is_actor %}
-                            {% include 'user/partials/movie_crew/body-description.html' with object=object %}
-                        {% endif %}
+                        <div class="card-body p-4 text-black">
+
+                            {% if object.user.is_movie_director or object.user.is_actor %}
+                                {% include 'user/partials/movie_crew/biography-filmography.html' %}
+                            {% endif %}
+                            <hr>
+                            {% if object.user.is_movie_director %}
+                                {% include 'user/partials/movie_director/body-description.html' %}
+                            {% endif %}
+                            {% if object.user.is_actor %}
+                                {% include 'user/partials/actor/body-description.html' with stars_in=stars_in %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

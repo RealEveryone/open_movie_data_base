@@ -72,8 +72,18 @@ class ActorProfileDetails(ProfileDetails):
     model = Actor
     template_name = 'user/profile-details.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stars_in'] = self.stars_in()
+        context['known_for'] = self.get_most_rated_movie()
+        return context
+
     def stars_in(self):
-        return self.object.actor.movie_set.all()
+        return self.object.movie_set.all()
+
+    def get_most_rated_movie(self):
+        movie_set = self.stars_in()
+        return movie_set.order_by('-averagereviewscore__score')[:1][0]
 
 
 def profile_dispatcher(request):
