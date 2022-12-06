@@ -1,4 +1,4 @@
-{% load user_profile_picture %}
+{% load user_type %}
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -20,9 +20,10 @@
 
     {% if request.user.is_authenticated %}
         <ul class="navbar-nav ms-3">
-
+            <li class="nav-item" style="width: 100px;">
                 <a class="nav-link d-flex align-items-center"
                    href="{% url request.user|profile_details_url request.user|profile_slug %}">Profile</a>
+            </li>
 
             {% if request.user.is_movie_director %}
 
@@ -48,7 +49,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent" style="padding-right: 1px">
             <ul class="navbar-nav ms-3">
-                {% if not is_banned %}
+                {% if is_not_banned %}
                     <li class="nav-item">
 
                         <label>

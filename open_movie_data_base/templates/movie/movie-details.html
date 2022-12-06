@@ -55,11 +55,16 @@
                         <h4 class="box-title mt-5">Movie description: </h4>
                         <p>{{ object.description }}</p>
                         <hr>
-                        <h4>Submit your review here</h4>
+                        <h4>Submit your review here<span style="padding-left: 240px">Rating</span></h4>
                         <form action="{% url 'movie-details' object.slug %}" method="post">
-                            {{ form.review }}
 
-                            {{ form.rating }}
+                            {{ form.review }}
+                            <div style="display: inline-block">
+                                <div id="SelectValue"
+                                     style="padding-left: 30px; padding-bottom: 40px; font-size: 50px"></div>
+                                {{ form.rating }}
+                            </div>
+
                             <button>submit</button>
                             {% csrf_token %}
                             {{ form.errors.all }}
@@ -106,4 +111,13 @@
             </div>
         </div>
     </div>
+    <script>
+        const slider = document.getElementById('slider');
+        const SelectValue = document.getElementById('SelectValue');
+
+        SelectValue.innerHTML = slider.value;
+        slider.oninput = function () {
+            SelectValue.innerHTML = this.value;
+        }
+    </script>
 {% endblock %}

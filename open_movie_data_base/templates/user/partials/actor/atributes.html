@@ -9,7 +9,8 @@
         <div class="p-1">
             <p class="small text-muted mb-0" style="padding-left: 20px">Best known for</p>
 
-            <p class="mb-1 h3" style="padding-left: 20px"><a href="{% url 'movie-details' known_for.slug %}">{{ known_for.title }}</a></p>
+            <p class="mb-1 h3" style="padding-left: 20px"><a
+                    href="{% url 'movie-details' known_for.slug %}">{{ known_for.title }}</a></p>
         </div>
     </div>
 </div>

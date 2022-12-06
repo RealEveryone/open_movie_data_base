@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MaxValueValidator
 from django.db import models
 
 from open_movie_data_base.common.validators import InRangeValidator
@@ -44,11 +43,20 @@ class AverageReviewScore(models.Model):
     )
 
 
-class Like(models.Model):
+class FavouriteMovies(models.Model):
     user = models.ForeignKey(
         UserModel, on_delete=models.CASCADE
     )
     like_obj = models.ForeignKey(
+        Movie, on_delete=models.CASCADE
+    )
+
+
+class Like(models.Model):
+    user = models.ForeignKey(
+        UserModel, on_delete=models.CASCADE
+    )
+    liked_movie = models.ForeignKey(
         Movie, on_delete=models.CASCADE
     )
 

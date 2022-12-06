@@ -1,6 +1,6 @@
 {% load cloudinary %}
 {% load static %}
-{% load user_profile_picture %}
+{% load user_type %}
 <hr>
 <section style="background-color: black">
     <div class="container py-5">
@@ -16,7 +16,7 @@
                             <div class="d-flex justify-content-center mb-4">
 
                                 {% if review.user|profile_picture %}
-                                    {% cloudinary review.user|profile_picture %}
+                                    {% cloudinary review.user|profile_picture width=150 height=150 %}
                                 {% else %}
                                     <img src="{% static 'images/user-profile.png' %}"
                                          class="rounded-circle shadow-1-strong" width="100"

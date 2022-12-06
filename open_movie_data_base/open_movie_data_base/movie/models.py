@@ -28,6 +28,8 @@ class MovieGenresChoices(ChoicesMixin, Enum):
     thriller = 'Thriller'
     Western = 'Western'
 
+    # Use this for reference about the category when cleaning DB
+
 
 class MovieGenres(models.Model):
     CATEGORY_MAX_LEN = 50

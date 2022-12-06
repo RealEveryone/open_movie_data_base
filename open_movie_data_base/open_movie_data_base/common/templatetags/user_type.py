@@ -22,6 +22,7 @@ def profile_slug(user):
     user_type = get_type_of_user(user)
     return user_type.slug
 
+
 @register.filter
 def profile_details_url(user):
     if user.is_movie_director:
@@ -30,3 +31,13 @@ def profile_details_url(user):
         return 'actor-details'
     elif user.is_regular_user:
         return 'profile-details'
+
+
+@register.filter
+def edit_profile_url(user):
+    if user.is_movie_director:
+        return 'edit-movie-director'
+    elif user.is_actor:
+        return 'edit-actor'
+    elif user.is_regular_user:
+        return 'edit-profile'

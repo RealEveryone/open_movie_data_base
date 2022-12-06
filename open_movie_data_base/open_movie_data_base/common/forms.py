@@ -1,7 +1,6 @@
 from django import forms
 
 from open_movie_data_base.common.models import Review
-from open_movie_data_base.movie.models import Movie
 
 
 class ReviewForm(forms.ModelForm):
@@ -18,10 +17,10 @@ class ReviewForm(forms.ModelForm):
             'rating': forms.NumberInput(
                 attrs={
                     'type': 'range',
-                    'step': 0.25,
+                    'step': 0.01,
                     'min': Review.MIN_RATING_NUM,
                     'max': Review.MAX_RATING_NUM,
-                    'id': 'customRange2',
+                    'id': 'slider',
                 }
             )
 

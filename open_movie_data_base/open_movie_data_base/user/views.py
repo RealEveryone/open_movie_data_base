@@ -7,7 +7,7 @@ from django.views import generic as views
 from open_movie_data_base.user.forms import AppUserForm, MovieDirectorEditForm, ActorEditForm, RegularUserEditForm, \
     UserSignInForm
 from open_movie_data_base.user.models import MovieDirector, Actor, RegularUser
-from open_movie_data_base.utils.mixins import RemoveFiltersFormNavMixin
+from open_movie_data_base.utils.func import user_is_owner_of_profile
 
 UserModel = get_user_model()
 
@@ -30,9 +30,15 @@ class SignIn(auth_views.LoginView):
     template_name = 'user/sign-in.html'
 
 
-class ProfileDetails(RemoveFiltersFormNavMixin, views.DetailView):
+class ProfileDetails(views.DetailView):
     model = RegularUser
     template_name = 'user/profile-details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['liked_movies'] = 1
+        context['posted_reviews'] = 1
+        return context
 
 
 class MovieDirectorDetails(ProfileDetails):
@@ -96,10 +102,6 @@ def profile_dispatcher(request):
         return redirect('actor-details', user.actor.slug)
     elif user.is_regular_user:
         return redirect('profile-details', user.regularuser.slug)
-
-
-def user_is_owner_of_profile(request, user):
-    return request.user == user.user
 
 
 def edit_profile(request, slug):

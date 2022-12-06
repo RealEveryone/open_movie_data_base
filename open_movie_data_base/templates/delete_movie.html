@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>Are you certain that you want to delete the movie , all likes and reviews will be removed as well</h1>
+    <form action="{% url 'delete-movie' object.pk %}">
+        <button class="btn btn-danger btn-sm">YES</button>
+    </form>
+{% endblock %}

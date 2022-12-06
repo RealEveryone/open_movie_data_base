@@ -1,10 +1,10 @@
 from django.db.models import Count
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views import generic as views
 
-from open_movie_data_base.common.models import Like, Review, ReviewLike
+from open_movie_data_base.common.models import FavouriteMovies, ReviewLike, Review, Like
 from open_movie_data_base.movie.models import Movie
-from open_movie_data_base.utils.func import get_user_favourite_movies
+from open_movie_data_base.utils.func import get_user_favourite_movies, get_review_set_likes, get_general_like
 
 
 def dispatcher(request):
@@ -27,6 +27,8 @@ class Index(views.ListView):
         context = super().get_context_data(**kwargs)
         context['latest_uploads'] = get_latest_uploads()
         context['user_favourite_movies'] = get_user_favourite_movies(request=self.request)
+        context['user_liked_movies'] = get_general_like(self.request)
+        context['is_not_banned'] = True
         return context
 
     def get_queryset(self):
@@ -66,20 +68,53 @@ class Index(views.ListView):
         return queryset.order_by('-averagereviewscore__score')
 
 
-# todo: When on 1+ and there no movie from the certain category gives an error
+def movie_reviews(request, slug):
+    movie = Movie.objects.filter(slug=slug).get()
+    reviews = movie.review_set.all()
+    review_like_set = get_review_set_likes(request)
+
+    order_by = request.GET.get('order_by')
+    if order_by:
+        if order_by == 'likes':
+            reviews = reviews.annotate(likes=Count('reviewlike')).order_by('-likes', '-posted_on')
+        else:
+            reviews = reviews.order_by(order_by)
+
+    context = {
+        'movie': movie,
+        'reviews': reviews,
+        'user_liked_reviews': review_like_set
+    }
+    return render(request, 'movie_reviews.html', context)
 
 
-def like_func(request, pk):
+def general_movie_like(request, pk):
     if not request.user.is_authenticated:
         return redirect('sign-in')
     movie = Movie.objects.filter(pk=pk).get()
-    liked_obj = Like.objects.filter(like_obj_id=pk, user=request.user).first()
+    liked_obj = Like.objects.filter(liked_movie_id=pk, user=request.user).first()
 
     if liked_obj:
         liked_obj.delete()
 
     else:
-        like = Like(like_obj=movie, user=request.user)
+        like = Like(liked_movie=movie, user=request.user)
+        like.save()
+    referee = request.META.get('HTTP_REFERER')
+    return redirect(referee)
+
+
+def add_to_favourite_movies(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('sign-in')
+    movie = Movie.objects.filter(pk=pk).get()
+    liked_obj = FavouriteMovies.objects.filter(like_obj_id=pk, user=request.user).first()
+
+    if liked_obj:
+        liked_obj.delete()
+
+    else:
+        like = FavouriteMovies(like_obj=movie, user=request.user)
         like.save()
     referee = request.META.get('HTTP_REFERER')
     return redirect(referee)
@@ -98,11 +133,13 @@ def movie_reviews_likes(request, pk):
         like = ReviewLike(like_obj=review, user=request.user)
         like.save()
     referee = request.META.get('HTTP_REFERER')
-    # return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
 
     return redirect(referee + f'#{review.pk}')
 
 
 def delete_movie_review(request, pk):
-    Review.objects.filter(pk=pk).delete()
+    review = Review.objects.filter(pk=pk).get()
+    if request.user == review.user:
+        review.delete()
+
     return redirect(request.META.get('HTTP_REFERER'))

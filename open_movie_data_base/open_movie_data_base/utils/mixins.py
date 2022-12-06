@@ -20,12 +20,3 @@ class CacheMixin(object):
 
     def dispatch(self, *args, **kwargs):
         return cache_page(self.get_cache_timeout())(super(CacheMixin, self).dispatch)(*args, **kwargs)
-
-
-class RemoveFiltersFormNavMixin:
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_banned'] = True
-
-        return context
-

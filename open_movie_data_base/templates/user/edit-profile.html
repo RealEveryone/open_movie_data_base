@@ -24,25 +24,25 @@
                 </div>
             </div>
             {% if form.errors %}
-            <div style="padding-top: 5px">
+                <div style="padding-top: 5px">
 
-                {% for field in form %}
-                    {% for error in field.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ field.label }}</strong>:
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors %}
                         <div class="alert alert-danger">
-                            <strong>{{ field.label }}</strong>:
                             <strong>{{ error|escape }}</strong>
                         </div>
                     {% endfor %}
-                {% endfor %}
 
-                {% for error in form.non_field_errors %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
-                    </div>
-                {% endfor %}
-
-            </div>
-        {% endif %}
+                </div>
+            {% endif %}
         </div>
 
         <div class="col-xl-8">
@@ -94,6 +94,13 @@
                                 <label class="small mb-1" for="inputBirthday">Biography</label>
                                 {{ form.biography }}
 
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="mb-3">
+                            <div class="small mb-1">
+                                {{ form.description.label }}
+                                {{ form.description }}
                             </div>
                         </div>
                     {% endif %}
