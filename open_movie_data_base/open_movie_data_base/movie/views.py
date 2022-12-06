@@ -28,9 +28,7 @@ class AddMovie(LoginRequiredMixin, MustBeMovieDirectorMixin, generic.CreateView)
         movie_director = self.request.user.moviedirector
         movie.movie_director = movie_director
         movie.save()
-        AverageReviewScore(
-            movie=movie, total_sum_of_numbers=0
-        ).save()
+
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

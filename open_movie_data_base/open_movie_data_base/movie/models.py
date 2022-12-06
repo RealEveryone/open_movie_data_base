@@ -4,6 +4,7 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils.text import slugify
 
+from open_movie_data_base.movie.validators import validate_file_size
 from open_movie_data_base.user.models import Actor, MovieDirector
 from open_movie_data_base.utils.mixins import ChoicesMixin
 from open_movie_data_base.utils.validators import CharValidator
@@ -71,16 +72,17 @@ class Movie(models.Model):
     description = models.CharField(
         validators=[MinLengthValidator(MOVIE_DESCRIPTION_MIN_LEN)],
         max_length=MOVIE_DESCRIPTION_MAX_LEN,
-        help_text='The first 30 characters will be displayed as short description',
+        help_text='The first 40 characters will be displayed as short description',
         error_messages={
-            "min_length": 'Movie description must be at least 150 characters',
-            'max_length': 'Movie description can only be 600 characters'
+            "min_length": 'Movie description must be at least 300 characters',
+            'max_length': 'Movie description can only be 1200 characters'
         }
 
     )
     # todo: add validator for description
 
     movie_poster = CloudinaryField(
+        validators=[validate_file_size]
     )
 
     genres = models.ManyToManyField(

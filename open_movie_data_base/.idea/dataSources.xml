@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db" uuid="6e9e0646-c25f-4dda-9ee9-694770b2d8bf">
+    <data-source source="LOCAL" name="db" uuid="4fb1224c-61ff-46a0-b61d-2539a4a9e573">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Nikolay\PycharmProjects\open_movie_data_base\db.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\Nikolay\Desktop\git\open_movie_data_base\open_movie_data_base\db.sqlite3</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

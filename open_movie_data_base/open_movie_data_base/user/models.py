@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.db import models
 from django.utils.text import slugify
 
-from open_movie_data_base.user.validators import UsernameValidator
+from open_movie_data_base.user.validators import UsernameValidator, names_validator
 from open_movie_data_base.utils.mixins import ChoicesMixin
 
 
@@ -51,7 +51,9 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 
     type_of_user = models.CharField(
         max_length=UserTypesChoices.get_length(),
-        choices=UserTypesChoices.get_choices()
+        choices=UserTypesChoices.get_choices(),
+        default='',
+        blank=False
     )
 
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -77,14 +79,19 @@ class ProfileMixin(models.Model):
         AppUser, on_delete=models.CASCADE, primary_key=True
     )
     first_name = models.CharField(
+        validators=[names_validator],
         max_length=FIRST_NAME_MAX_LEN,
         null=True, blank=True
     )
     last_name = models.CharField(
+        validators=[names_validator],
         max_length=LAST_NAME_MAX_LEN,
         null=True, blank=True
     )
     birth_date = models.DateField(
+        null=True, blank=True
+    )
+    description = models.TextField(
         null=True, blank=True
     )
 

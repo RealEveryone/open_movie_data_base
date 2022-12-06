@@ -37,12 +37,31 @@
                             </div>
 
                             <button class="btn btn-dark btn-lg btn-block">Login</button>
+
+                            {% if form.errors %}
+                                <div style="padding-top: 5px">
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ field.label }}</strong>:
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+
+                                    {% for error in form.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             {% csrf_token %}
                         </form>
                         <hr class="my-4">
 
-                        <p>Don't have an account? <a href="{% url 'sign-up' %}" class="link-info">Register
-                            here</a></p>
+                        <p>Don't have an account? <br><a href="{% url 'sign-up' %}" class="link-info">Register here</a>
+                        </p>
                     </div>
                 </div>
             </div>

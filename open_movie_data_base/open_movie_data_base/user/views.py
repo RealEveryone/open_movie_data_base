@@ -4,7 +4,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from open_movie_data_base.user.forms import AppUserForm, MovieDirectorEditForm, ActorEditForm, RegularUserEditForm
+from open_movie_data_base.user.forms import AppUserForm, MovieDirectorEditForm, ActorEditForm, RegularUserEditForm, \
+    UserSignInForm
 from open_movie_data_base.user.models import MovieDirector, Actor, RegularUser
 from open_movie_data_base.utils.mixins import RemoveFiltersFormNavMixin
 
@@ -25,6 +26,7 @@ class SignUp(views.CreateView):
 
 
 class SignIn(auth_views.LoginView):
+    form_class = UserSignInForm
     template_name = 'user/sign-in.html'
 
 
@@ -111,7 +113,7 @@ def edit_profile(request, slug):
         form = RegularUserEditForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('profile-details', user.pk)
+            return redirect('profile-details', user.slug)
     else:
         form = RegularUserEditForm(instance=user)
 

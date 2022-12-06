@@ -40,17 +40,17 @@ class AdminUser(auth_admin.UserAdmin):
         ),
     )
 
-
-@admin.register(Actor)
-class ActorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(MovieDirector)
-class MovieDirectorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(RegularUser)
-class AdminRegularUser(admin.ModelAdmin):
-    pass
+#
+# @admin.register(Actor)
+# class ActorAdmin(admin.ModelAdmin):
+#     pass
+#
+#
+# @admin.register(MovieDirector)
+# class MovieDirectorAdmin(admin.ModelAdmin):
+#     pass
+#
+#
+# @admin.register(RegularUser)
+# class AdminRegularUser(admin.ModelAdmin):
+#     pass

@@ -16,7 +16,7 @@ class AddMovieForm(forms.ModelForm):
                 attrs={
                     'cols': 5,
                     'rows': 5
-                }
+                },
             ),
         }
 

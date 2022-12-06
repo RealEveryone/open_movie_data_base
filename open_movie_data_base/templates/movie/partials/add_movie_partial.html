@@ -62,14 +62,15 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
                 <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-                    <div class="card-body p-0">
-                        <div class="row g-0">
-                            <div class="col-lg-6 bg-indigo2 text-white">
+                    <form action="{% url 'add-movie' %}" method="post" enctype="multipart/form-data">
 
-                                <div class="p-5">
-                                    <h3 class="fw-normal mb-5" style="color: #000000;">Upload Movie Details</h3>
-                                    <form action="{% url 'add-movie' %}" method="post"
-                                          enctype="multipart/form-data">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-6 bg-indigo2 text-white">
+
+                                    <div class="p-5">
+                                        <h3 class="fw-normal mb-5" style="color: #000000;">Upload Movie Details</h3>
+
                                         <div class="row">
                                             <div class="col-md-6 mb-4 pb-2">
 
@@ -86,6 +87,7 @@
                                                     {{ form.release_date }}
                                                 </div>
 
+
                                             </div>
                                         </div>
 
@@ -93,6 +95,7 @@
                                         <div class="mb-4 pb-2">
                                             <div class="form-outline">
                                                 {{ form.description }}
+                                                <p style="color:black;">{{ form.description.help_text }}</p>
                                             </div>
                                         </div>
 
@@ -114,58 +117,77 @@
 
                                             </div>
                                         </div>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-6 bg-indigo text-white">
-                                <div class="p-5">
-
-                                    <div class="row">
-                                        <div class="mb-4 pb-2">
-                                            <div class="form-outline form-white">
-                                                <h5>Movie poster</h5>
-
-                                                {{ form.movie_poster }}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-4 pb-2 mb-md-0 pb-md-0">
-
-                                            <div class="form-outline">
-                                                <div><h5>Actors</h5></div>
-
-                                                {{ form.actors }}
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div><h5>Movie genres</h5></div>
-
-                                            {{ form.genres }}
-
-                                        </div>
-                                        <div style="padding-top: 20px">
-                                            <h6>To select multiple items in a list, hold down the Ctrl</h6></div>
                                     </div>
 
-                                    {% if edit %}
-                                        <button class="btn btn-light btn-lg"
-                                                data-mdb-ripple-color="dark">Save
-                                        </button>
-                                    {% else %}
-                                        <button class="btn btn-light btn-lg"
-                                                data-mdb-ripple-color="dark">Upload
-                                        </button>
-                                    {% endif %}
-                                    {% csrf_token %}
-                                    </form>
+                                </div>
+                                <div class="col-lg-6 bg-indigo text-white">
+                                    <div class="p-5">
 
+                                        <div class="row">
+                                            <div class="mb-4 pb-2">
+                                                <div class="form-outline form-white">
+                                                    <h5>Movie poster</h5>
+
+                                                    {{ form.movie_poster }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4 pb-2 mb-md-0 pb-md-0">
+
+                                                <div class="form-outline">
+                                                    <div><h5>Actors</h5></div>
+
+                                                    {{ form.actors }}
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div><h5>Movie genres</h5></div>
+
+                                                {{ form.genres }}
+
+                                            </div>
+                                            <div style="padding-top: 20px">
+                                                <h6>To select multiple items in a list, hold down the Ctrl</h6></div>
+                                        </div>
+
+                                        {% if edit %}
+                                            <button class="btn btn-light btn-lg"
+                                                    data-mdb-ripple-color="dark">Save
+                                            </button>
+                                        {% else %}
+                                            <button class="btn btn-light btn-lg"
+                                                    data-mdb-ripple-color="dark">Upload
+                                            </button>
+                                        {% endif %}
+                                        {% csrf_token %}
+                                        {% if form.errors %}
+                                            <div style="padding-top: 5px">
+
+                                                {% for field in form %}
+                                                    {% for error in field.errors %}
+                                                        <div class="alert alert-danger">
+                                                            <strong>{{ field.label }}</strong>:
+                                                            <strong>{{ error|escape }}</strong>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endfor %}
+
+                                                {% for error in form.non_field_errors %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{ error|escape }}</strong>
+                                                    </div>
+                                                {% endfor %}
+
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
-this is error {{ form.errors }}

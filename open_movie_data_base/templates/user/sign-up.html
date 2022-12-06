@@ -29,19 +29,19 @@
                         <form action="{% url 'sign-up' %}" method="post">
 
                             <div class="form-outline mb-4">
-                                <div class="form-control-lg">{{ form.username }}</div>
+                                {{ form.username }}
                             </div>
 
                             <div class="form-outline mb-4">
-                                <div class="form-control-lg">{{ form.email }}</div>
+                                {{ form.email }}
                             </div>
 
                             <div class="form-outline mb-4">
-                                <div class="form-control-lg">{{ form.password1 }}</div>
+                                {{ form.password1 }}
                             </div>
 
                             <div class="form-outline mb-4">
-                                <div class="form-control-lg">{{ form.password2 }}</div>
+                                {{ form.password2 }}
                             </div>
 
 
@@ -56,16 +56,32 @@
                             </div>
 
                             <button class="btn btn-dark btn-lg btn-block">Register</button>
+                            {% if form.errors %}
+                                <div style="padding-top: 5px">
+
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ field.label }}</strong>:
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+
+                                    {% for error in form.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            {% endif %}
                             {% csrf_token %}
                         </form>
                         <hr class="my-4">
 
                         <p>You have an account? <a href="{% url 'sign-in' %}" class="link-info">login
                             here</a></p>
-
-                        {% for err in form.errors %}
-                            {{ err }}
-                        {% endfor %}
 
                     </div>
                 </div>
