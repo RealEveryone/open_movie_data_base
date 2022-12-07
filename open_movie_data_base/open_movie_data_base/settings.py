@@ -1,5 +1,3 @@
-
-
 """
 Django settings for open_movie_data_base project.
 
@@ -144,5 +142,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.AppUser'
 
 LOGIN_URL = reverse_lazy('sign-in')
-LOGIN_REDIRECT_URL = reverse_lazy('dispatcher')
+LOGIN_REDIRECT_URL = reverse_lazy('home-page')
 LOGOUT_REDIRECT_URL = reverse_lazy('home-page')

@@ -31,6 +31,9 @@ class Review(models.Model):
     class Meta:
         ordering = ['-posted_on']
 
+    def __str__(self):
+        return self.movie.title
+
 
 class AverageReviewScore(models.Model):
     movie = models.OneToOneField(

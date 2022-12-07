@@ -143,17 +143,17 @@ def movie_edit(request, slug):
     return render(request, 'movie/edit-movie.html', context=context)
 
 
-class DeleteMovie(generic.DeleteView):
-    model = Movie
-    template_name = 'delete_movie.html'
+def delete_movie(request, pk):
+    movie = Movie.objects.filter(pk=pk).get()
+    if not is_movie_director_and_owner(request.user, movie):
+        return render(request, 'must-be-movie-director.html')
 
-    def get(self, *args, **kwargs):
+    if request.method == 'POST':
+        movie.delete()
+        return redirect('my-movies')
 
-        if self.movie_director.user != self.request.user:
-            return render(self.request, 'must-be-movie-director.html')
-        return super().get(*args, **kwargs)
+    context = {
+        'object': movie
+    }
 
-    def post(self, *args, **kwargs):
-        if self.object.movie_director.user != self.request.user:
-            return render(self.request, 'must-be-movie-director.html')
-        return super().post(*args, **kwargs)
+    return render(request, 'delete_movie.html', context)

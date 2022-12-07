@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.models import Group
 from django.db.models import signals
 from django.dispatch import receiver
 
@@ -16,7 +17,8 @@ def create_profile_type_on_user_creation(instance, *args, **kwargs):
     elif type_of_user == 'MovieDirector':
         instance.is_movie_director = True
         instance.is_staff = True
-    elif type_of_user == 'User':
+    else:
+        # not specified , so the superuser can get a profile in the public site
         instance.is_regular_user = True
 
 
@@ -33,6 +35,9 @@ def create_profile_type_on_user_creation(instance, *args, **kwargs):
         MovieDirector(
             user=instance,
         ).save()
+
+        my_groups = Group.objects.get(name='movie_directors')
+        my_groups.user_set.add(instance)
 
     elif type_of_user.is_regular_user:
         RegularUser(

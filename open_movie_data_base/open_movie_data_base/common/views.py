@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.views import generic as views
 
 from open_movie_data_base.common.models import FavouriteMovies, ReviewLike, Review, Like
+from open_movie_data_base.movie.forms import DisplayGenresForm
 from open_movie_data_base.movie.models import Movie
 from open_movie_data_base.utils.func import get_user_favourite_movies, get_review_set_likes, get_general_like
 
@@ -29,12 +30,14 @@ class Index(views.ListView):
         context['user_favourite_movies'] = get_user_favourite_movies(request=self.request)
         context['user_liked_movies'] = get_general_like(self.request)
         context['is_not_banned'] = True
+        context['home_page'] = True
+        context['genres'] = DisplayGenresForm()
         return context
 
     def get_queryset(self):
         queryset = super().get_queryset()
         genre = self.request.GET.get('genres')
-        if genre:
+        if genre and genre != 'all':
             queryset = queryset.filter(genres__category__exact=genre)
         search_text = self.request.GET.get("searchbar")
         order_by = self.request.GET.get('filters')

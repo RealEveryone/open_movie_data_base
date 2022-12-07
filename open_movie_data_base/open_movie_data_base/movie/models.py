@@ -88,11 +88,11 @@ class Movie(models.Model):
     )
 
     genres = models.ManyToManyField(
-        MovieGenres,
+        MovieGenres, null=True, blank=True
     )
 
     actors = models.ManyToManyField(
-        Actor
+        Actor, null=True, blank=True
     )
 
     movie_length = models.PositiveIntegerField(
@@ -110,5 +110,9 @@ class Movie(models.Model):
         self.slug = slugify(f'{self.title}-{self.pk}')
         return super().save(*args, **kwargs)
 
-    class Meta:
-        ordering = ['-uploaded_on']
+    def __str__(self):
+        return self.title
+
+
+class Meta:
+    ordering = ['-uploaded_on']

@@ -5,7 +5,7 @@ from open_movie_data_base.movie.models import Movie, MovieGenres
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    pass
+    list_display =['title', 'movie_director', 'uploaded_on']
 
 
 @admin.register(MovieGenres)

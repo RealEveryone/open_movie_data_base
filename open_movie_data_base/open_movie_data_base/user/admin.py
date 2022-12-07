@@ -29,6 +29,7 @@ class AdminUser(auth_admin.UserAdmin):
             },
         ),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
+        ('User Type', {'fields': ('type_of_user',)})
     )
     add_fieldsets = (
         (

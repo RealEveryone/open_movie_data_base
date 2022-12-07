@@ -19,8 +19,15 @@
 <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
 
     {% if request.user.is_authenticated %}
+
         <ul class="navbar-nav ms-3">
-            <li class="nav-item" style="width: 100px;">
+            {% if not home_page %}
+                <li class="nav-item" style="width: 80px;">
+                    <a class="nav-link d-flex align-items-center"
+                       href="{% url 'home-page' %}">Home</a>
+                </li>
+            {% endif %}
+            <li class="nav-item" style="width: 80px;">
                 <a class="nav-link d-flex align-items-center"
                    href="{% url request.user|profile_details_url request.user|profile_slug %}">Profile</a>
             </li>
@@ -64,36 +71,23 @@
                             </select>
                         </label>
                     </li>
-                    <li class="nav-item" style="padding-right: 20px">
-                        <label>
-                            <select id='genres' name='genres' onchange="location = finalurl2();" class="btn btn-dark">
-                                <option id='placeholder-genres' value="" disabled selected hidden>All</option>
-                                <option id='Action' value="Action">Action</option>
-                                <option id='Adventure' value="Adventure">Adventure</option>
-                                <option id='Comedy' value="Comedy">Comedy</option>
-                                <option id='Drama' value="Drama">Drama</option>
-                                <option id='Horror' value="Horror">Horror</option>
-                                <option id='horror' value="horror">Fantasy</option>
-                                <option id='Musicals' value="Musicals">Musicals</option>
-                                <option id='Mystery' value="Mystery">Mystery</option>
-                                <option id='Romance' value="Romance">Romance</option>
-                                <option id='Science' value="Science">Science</option>
-                                <option id='Fiction' value="Fiction">Fiction</option>
-                                <option id='Sports' value="Sports">Sports</option>
-                                <option id='Thriller' value="Thriller">Thriller</option>
-                                <option id='Western' value="Western">Western</option>
-                            </select>
-                        </label>
-                    </li>
+
+
                 {% endif %}
 
                 <form action="{% url 'home-page' %}" method="get" class="d-flex align-items-center w-5 form-search">
 
-                    <li class="nav-item" style="padding-left: 3px">
+                    <li class="nav-item" style="padding-left: 40px">
                         <input name='searchbar' id='searchbar' type="search" class="form-control"
                                placeholder="Search by movie name"
                                aria-label="Search"/>
                     </li>
+                    <li class="nav-item" style="padding-right: 5px; padding-left: 3px">
+                        <label for="">
+                            {{ genres.genres }}
+                        </label>
+                    </li>
+
                     <li class="nav-item" style="padding-left: 3px">
                         <button class="btn btn-info">Search</button>
                     </li>
@@ -133,8 +127,7 @@
 
     if (get('filters'))
         document.getElementById('placeholder').innerHTML = document.getElementById(get('filters')).innerHTML;
-    if (get('genres'))
-        document.getElementById('placeholder-genres').innerHTML = document.getElementById(get('genres')).innerHTML;
+
 
     function finalurl() {
         var url = new URL(window.location.href);
@@ -145,14 +138,6 @@
         return new_url
     }
 
-    function finalurl2() {
-        var url = new URL(window.location.href);
-        var search_params = url.searchParams;
-        search_params.set('genres', document.getElementById('genres').value);
-        url.search = search_params.toString();
-        var new_url = url.toString()
-        return new_url
-    }
 </script>
 {% block body %}
 {% endblock %}
