@@ -55,9 +55,9 @@ class MovieEditForm(AddMovieForm):
 
 
 class DisplayGenresForm(forms.Form):
-    choices = [(obj.category, obj.category) for obj in MovieGenres.objects.all()]
+    # choices = [(obj.category, obj.category) for obj in MovieGenres.objects.all()]
     genres = forms.ChoiceField(
-        choices=[('all', 'all')] + choices,
+        # choices=[('all', 'all')] + choices,
         widget=forms.Select(attrs={'class': 'btn btn-dark'})
 
     )
