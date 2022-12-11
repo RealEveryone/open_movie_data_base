@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.db.models import signals
 from django.dispatch import receiver
 
@@ -35,9 +35,14 @@ def create_profile_type_on_user_creation(instance, *args, **kwargs):
         MovieDirector(
             user=instance,
         ).save()
+        # handle if the group is not created in the administration before creation of movie director
 
-        my_groups = Group.objects.get(name='movie_directors')
-        my_groups.user_set.add(instance)
+        my_group, created = Group.objects.get_or_create(name='movie_directors')
+        if created:
+            add_perm = Permission.objects.get(name='Can add movie genres')
+            my_group.permissions.add(add_perm)
+        my_group.user_set.add(instance)
+
 
     elif type_of_user.is_regular_user:
         RegularUser(

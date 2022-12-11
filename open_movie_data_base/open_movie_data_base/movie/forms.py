@@ -1,3 +1,4 @@
+import django.db.utils
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from open_movie_data_base.movie.models import Movie, MovieGenres
@@ -55,9 +56,12 @@ class MovieEditForm(AddMovieForm):
 
 
 class DisplayGenresForm(forms.Form):
-    # choices = [(obj.category, obj.category) for obj in MovieGenres.objects.all()]
+    try:
+        choices = [(obj.category, obj.category) for obj in MovieGenres.objects.all()]
+    except django.db.utils.ProgrammingError:
+        choices = [('---', '---')]
     genres = forms.ChoiceField(
-        # choices=[('all', 'all')] + choices,
+        choices=[('all', 'all')] + choices,
         widget=forms.Select(attrs={'class': 'btn btn-dark'})
 
     )

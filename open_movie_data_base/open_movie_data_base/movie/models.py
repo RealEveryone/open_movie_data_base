@@ -88,14 +88,15 @@ class Movie(models.Model):
     )
 
     genres = models.ManyToManyField(
-        MovieGenres, null=True, blank=True
+        MovieGenres, blank=True
     )
 
     actors = models.ManyToManyField(
-        Actor, null=True, blank=True
+        Actor, blank=True
     )
 
     movie_length = models.PositiveIntegerField(
+        help_text='in minutes'
     )
 
     uploaded_on = models.DateTimeField(auto_now_add=True)

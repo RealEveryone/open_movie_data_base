@@ -105,7 +105,7 @@ class ProfileMixin(models.Model):
 
     def get_full_name(self):
         if not self.first_name or not self.last_name:
-            return None
+            return self.user.username
         return f'{self.first_name} {self.last_name}'
 
     def save(self, *args, **kwargs):
@@ -114,8 +114,6 @@ class ProfileMixin(models.Model):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        if self.get_full_name():
-            return self.get_full_name()
         return self.user.username
 
 

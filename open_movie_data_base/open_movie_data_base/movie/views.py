@@ -118,7 +118,7 @@ def favourite_movies(request):
         'user_liked_movies': get_general_like(request)
 
     }
-    return render(request, 'favourite-movies.html', context)
+    return render(request, 'movie/favourite-movies.html', context)
 
 
 def movie_edit(request, slug):
@@ -156,4 +156,4 @@ def delete_movie(request, pk):
         'object': movie
     }
 
-    return render(request, 'delete_movie.html', context)
+    return render(request, 'movie/delete_movie.html', context)

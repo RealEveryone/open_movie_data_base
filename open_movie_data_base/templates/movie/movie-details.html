@@ -79,7 +79,8 @@
                                 <tr>
                                     <td width="390">Movie Director</td>
                                     <td>
-                                        <a href="{% url 'director-details' object.movie_director.slug %}">{{ object.movie_director }}</a>
+                                        <a href="{% url 'director-details' object.movie_director.slug %}">
+                                            {{ object.movie_director.get_full_name }}</a>
                                     </td>
                                 </tr>
                                 <tr>

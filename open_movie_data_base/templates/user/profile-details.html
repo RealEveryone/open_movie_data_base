@@ -31,7 +31,7 @@
                                         {#                                        <form action="{% url 'edit-profile' object.slug %}">#}
                                         {#                                    {% endif %}#}
 
-                                        {% if object.get_full_name %}
+                                        {% if object.first_name and object.last_name %}
                                             <button class="btn btn btn-outline-success" data-mdb-ripple-color="dark"
                                                     style="z-index: 2;">
                                                 Edit profile
@@ -79,6 +79,11 @@
                                         <p class="small text-muted mb-0">Posted Reviews</p>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="card-body p-4 text-black">
+                                {% if object.description %}
+                                    {{ object.description }}
+                                {% endif %}
                             </div>
                         {% endif %}
                         <div class="card-body p-4 text-black">

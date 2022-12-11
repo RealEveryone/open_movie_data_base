@@ -36,9 +36,15 @@ class ProfileDetails(views.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['liked_movies'] = 1
-        context['posted_reviews'] = 1
+        context['liked_movies'] = self.get_liked_movie()
+        context['posted_reviews'] = self.get_posted_reviews()
         return context
+
+    def get_liked_movie(self):
+        return self.object.user.like_set.all().count()
+
+    def get_posted_reviews(self):
+        return self.object.user.review_set.all().count()
 
 
 class MovieDirectorDetails(ProfileDetails):
@@ -91,7 +97,9 @@ class ActorProfileDetails(ProfileDetails):
 
     def get_most_rated_movie(self):
         movie_set = self.stars_in()
-        return movie_set.order_by('-averagereviewscore__score')[:1][0]
+        if movie_set:
+            return movie_set.order_by('-averagereviewscore__score')[:1][0]
+        return None
 
 
 def profile_dispatcher(request):

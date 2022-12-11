@@ -81,14 +81,14 @@ def movie_reviews(request, slug):
         if order_by == 'likes':
             reviews = reviews.annotate(likes=Count('reviewlike')).order_by('-likes', '-posted_on')
         else:
-            reviews = reviews.order_by(order_by)
+            reviews = reviews.order_by('-posted_on')
 
     context = {
         'movie': movie,
         'reviews': reviews,
         'user_liked_reviews': review_like_set
     }
-    return render(request, 'movie_reviews.html', context)
+    return render(request, 'movie/movie_reviews.html', context)
 
 
 def general_movie_like(request, pk):
