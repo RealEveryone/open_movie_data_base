@@ -14,7 +14,7 @@
                             <div class="ms-4 mt-2 d-flex flex-column" style="width: 150px;">
                                 {% if object.profile_picture %}
                                     <div class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
-                                        {% cloudinary object.profile_picture width=150 height=150 %}
+                                        {% cloudinary object.profile_picture width=140 height=120 %}
                                     </div>
                                 {% else %}
                                     <img src='{% static 'images/user-profile.png' %}'
@@ -52,7 +52,7 @@
                                 {% if object.birth_date %}
                                     {{ object.birth_date }}<br>
                                 {% endif %}
-                                {% if object.get_full_name %}
+                                {% if object.first_name and object.last_name %}
                                     {{ object.get_full_name }}
                                 {% endif %}
                                 <h6>Username: {{ object.user.username }}</h6>

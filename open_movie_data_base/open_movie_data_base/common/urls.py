@@ -10,6 +10,7 @@ urlpatterns = [
     path('review/like/<pk>/', movie_reviews_likes, name='like-review'),
     path('review/delete/<pk>', delete_movie_review, name='delete-review'),
     path('details/<slug:slug>/reviews/', movie_reviews, name='movie-reviews'),
+    path('get404/', get_404_page, name='404-page')
 
 ]
 

@@ -1,10 +1,11 @@
+import django
 from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.views import generic as views
 
 from open_movie_data_base.common.models import FavouriteMovies, ReviewLike, Review, Like
 from open_movie_data_base.movie.forms import DisplayGenresForm
-from open_movie_data_base.movie.models import Movie
+from open_movie_data_base.movie.models import Movie, MovieGenres
 from open_movie_data_base.utils.func import get_user_favourite_movies, get_review_set_likes, get_general_like
 
 
@@ -17,6 +18,10 @@ def dispatcher(request):
 
 def get_latest_uploads():
     return Movie.objects.all().order_by('-uploaded_on')[:5]
+
+
+def get_404_page(request):
+    return render(request, '404.html')
 
 
 class Index(views.ListView):
@@ -38,7 +43,7 @@ class Index(views.ListView):
         queryset = super().get_queryset()
         genre = self.request.GET.get('genres')
         if genre and genre != 'all':
-            queryset = queryset.filter(genres__category__exact=genre)
+            queryset = queryset.filter(genres__pk=genre)
         search_text = self.request.GET.get("searchbar")
         order_by = self.request.GET.get('filters')
         if order_by:
@@ -64,7 +69,7 @@ class Index(views.ListView):
 
     @staticmethod
     def order_by_likes(queryset):
-        return queryset.annotate(likes=Count('like')).order_by('likes')
+        return queryset.annotate(likes=Count('like')).order_by('-likes')
 
     @staticmethod
     def order_by_rating(queryset):

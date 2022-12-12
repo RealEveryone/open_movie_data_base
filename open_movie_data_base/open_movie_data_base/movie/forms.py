@@ -55,13 +55,14 @@ class MovieEditForm(AddMovieForm):
         }
 
 
-class DisplayGenresForm(forms.Form):
-    try:
-        choices = [(obj.category, obj.category) for obj in MovieGenres.objects.all()]
-    except django.db.utils.ProgrammingError:
-        choices = [('---', '---')]
-    genres = forms.ChoiceField(
-        choices=[('all', 'all')] + choices,
-        widget=forms.Select(attrs={'class': 'btn btn-dark'})
+class DisplayGenresForm(forms.ModelForm):
+    class Meta:
+        model = MovieGenres
+        fields = ('category',)
+
+    genres = forms.ModelChoiceField(
+        queryset=MovieGenres.objects.all(),
+        widget=forms.Select(attrs={'class': 'btn btn-dark'}),
+        empty_label='Genres', required=False,
 
     )

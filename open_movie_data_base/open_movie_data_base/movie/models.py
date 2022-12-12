@@ -37,7 +37,8 @@ class MovieGenres(models.Model):
     ERR_MSG = 'Use only latin letters, spaces and dashes'
     category = models.CharField(
         max_length=CATEGORY_MAX_LEN,
-        validators=[CharValidator(REGEX_PATTERN, ERR_MSG)]
+        validators=[CharValidator(REGEX_PATTERN, ERR_MSG)],
+        blank=True,
     )
 
     class Meta:

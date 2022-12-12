@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block body %}
-    404
-    <a href="{% url 'home-page' %}">home page</a>
+    <div>
+        <h1 style="padding-left: 300px;margin-bottom: -100px; color: white">NOTHING TO SEE HERE, GO BACK</h1>
+        <img style="padding-left: 350px;"
+             src="{% static  'images/png-transparent-samuel-l-jackson-pulp-fiction-jules-winnfield-vincent-vega-mia-wallace-samuel-l-jackson-celebrities-microphone-photography-thumbnail-removebg-preview.png' %}"
+             width="900" height="600">
+    </div>
 {% endblock %}
