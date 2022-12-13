@@ -1,4 +1,3 @@
-from django import views
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
@@ -7,7 +6,6 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.decorators.cache import cache_page
 
 from open_movie_data_base.common.forms import ReviewForm
 from open_movie_data_base.movie.forms import AddMovieForm, MovieEditForm

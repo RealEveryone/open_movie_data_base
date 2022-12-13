@@ -1,4 +1,3 @@
-import django
 from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.views import generic as views

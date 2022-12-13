@@ -1,0 +1,1 @@
+test_movie_description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nibh orci, consequat in nibh tincidunt, interdum porta lacus. Pellentesque a quam scelerisque, fringilla massa eget, lacinia turpis. Etiam euismod venenatis nunc at rutrum. Phasellus congue ante et fringilla sodales. Aliquam a orci urna. Ut pharetra erat sit amet nibh scelerisque.'
