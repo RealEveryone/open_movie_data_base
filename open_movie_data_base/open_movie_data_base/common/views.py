@@ -53,6 +53,9 @@ class Index(views.ListView):
             elif order_by in ['rating']:
                 queryset = self.order_by_rating(queryset)
 
+            elif order_by in ['release_date']:
+                queryset = queryset.order_by('-release_date')
+
             else:
                 queryset = queryset.order_by(order_by)
 
@@ -85,7 +88,7 @@ def movie_reviews(request, slug):
         if order_by == 'likes':
             reviews = reviews.annotate(likes=Count('reviewlike')).order_by('-likes', '-posted_on')
         else:
-            reviews = reviews.order_by('-posted_on')
+            reviews = reviews.order_by('posted_on')
 
     context = {
         'movie': movie,

@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h1>Are you certain that you want to delete the movie , all likes and reviews will be removed as well</h1>
-    <form action="{% url 'delete-movie' object.pk %}" method="post">
-        <button class="btn btn-danger btn-sm">YES</button>
-        {% csrf_token %}
-    </form>
+    <div class="container-sm"; style="padding-top: 100px">
+        <form action="{% url 'delete-movie' object.pk %}" method="post">
+            <h1 style="color: white">Are you certain that you want to delete the movie , all likes and reviews will be
+                removed as well <span> <button class="btn btn-danger btn-lg">YES</button></span>
+            </h1>
+
+            {% csrf_token %}
+        </form>
+    </div>
 {% endblock %}

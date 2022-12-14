@@ -47,7 +47,7 @@ class ProfileDetails(views.DetailView):
         return self.object.user.review_set.all().count()
 
 
-class MovieDirectorDetails(ProfileDetails):
+class MovieDirectorDetails(views.DetailView):
     model = MovieDirector
     template_name = 'user/profile-details.html'
 
@@ -82,7 +82,7 @@ class MovieDirectorDetails(ProfileDetails):
         return self.object.movie_set.all()
 
 
-class ActorProfileDetails(ProfileDetails):
+class ActorProfileDetails(views.DetailView):
     model = Actor
     template_name = 'user/profile-details.html'
 
@@ -169,7 +169,7 @@ def edit_actor(request, slug):
         form = ActorEditForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('profile-details', user.pk)
+            return redirect('actor-details', user.slug)
     else:
         form = ActorEditForm(instance=user)
 

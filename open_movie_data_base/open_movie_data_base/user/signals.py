@@ -23,28 +23,28 @@ def create_profile_type_on_user_creation(instance, *args, **kwargs):
 
 
 @receiver(signals.post_save, sender=UserModel)
-def create_profile_type_on_user_creation(instance, *args, **kwargs):
+def create_profile_type_on_user_creation(instance, created, *args, **kwargs):
     type_of_user = instance
+    if created:
+        if type_of_user.is_actor:
+            Actor(
+                user=instance,
+            ).save()
 
-    if type_of_user.is_actor:
-        Actor(
-            user=instance,
-        ).save()
+        elif type_of_user.is_movie_director:
+            MovieDirector(
+                user=instance,
+            ).save()
+            # handle if the group is not created in the administration before creation of movie director
 
-    elif type_of_user.is_movie_director:
-        MovieDirector(
-            user=instance,
-        ).save()
-        # handle if the group is not created in the administration before creation of movie director
-
-        my_group, created = Group.objects.get_or_create(name='movie_directors')
-        if created:
-            add_perm = Permission.objects.get(name='Can add movie genres')
-            my_group.permissions.add(add_perm)
-        my_group.user_set.add(instance)
+            my_group, created = Group.objects.get_or_create(name='movie_directors')
+            if created:
+                add_perm = Permission.objects.get(name='Can add movie genres')
+                my_group.permissions.add(add_perm)
+            my_group.user_set.add(instance)
 
 
-    elif type_of_user.is_regular_user:
-        RegularUser(
-            user=instance
-        ).save()
+        elif type_of_user.is_regular_user:
+            RegularUser(
+                user=instance
+            ).save()

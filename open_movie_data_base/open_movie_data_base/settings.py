@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'open_movie_data_base.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'open_movie_data_base',
+        'NAME': 'omdb',
         'USER': 'everyone',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',

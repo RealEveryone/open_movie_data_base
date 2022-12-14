@@ -55,20 +55,29 @@
                         <h4 class="box-title mt-5">Movie description: </h4>
                         <p>{{ object.description }}</p>
                         <hr>
-                        <h4>Submit your review here<span style="padding-left: 240px">Rating</span></h4>
-                        <form action="{% url 'movie-details' object.slug %}" method="post">
+                        {% if not user_review %}
+                            <h4>Submit your review here<span style="padding-left: 240px">Rating</span></h4>
+                            <form action="{% url 'movie-details' object.slug %}" method="post">
 
-                            {{ form.review }}
-                            <div style="display: inline-block">
-                                <div id="SelectValue"
-                                     style="padding-left: 30px; padding-bottom: 40px; font-size: 50px"></div>
-                                {{ form.rating }}
+                                {{ form.review }}
+                                <div style="display: inline-block">
+                                    <div id="SelectValue"
+                                         style="padding-left: 30px; padding-bottom: 40px; font-size: 50px"></div>
+                                    {{ form.rating }}
+                                </div>
+
+                                <button>submit</button>
+                                {% csrf_token %}
+                                {{ form.errors.all }}
+                            </form>
+                        {% else %}
+                            <div><span><strong>Your review >>> </strong></span>{{ user_review.review }}
+                                {% include 'movie/partials/movie_rating_coloring_partial.html' with average_rating=user_review.rating %}
                             </div>
-
-                            <button>submit</button>
-                            {% csrf_token %}
-                            {{ form.errors.all }}
-                        </form>
+                            <form action="{% url 'delete-review' user_review.pk %}">
+                                <button>Delete</button>
+                            </form>
+                        {% endif %}
 
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
@@ -102,6 +111,10 @@
                                 <tr>
                                     <td>Age restriction</td>
                                     <td>{{ object.age_restriction }}+</td>
+                                </tr>
+                                <tr>
+                                    <td>Release date</td>
+                                    <td>{{ object.release_date }}</td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -45,3 +45,11 @@ def is_movie_director_and_owner(user, movie):
 
 def user_is_owner_of_profile(request, user):
     return request.user == user.user
+
+
+def return_user_review_if_exist(movie, user):
+    if user.is_authenticated:
+        for review in user.review_set.all():
+            if review.movie == movie:
+                return review
+    return None

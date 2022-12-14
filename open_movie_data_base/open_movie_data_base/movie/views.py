@@ -12,7 +12,7 @@ from open_movie_data_base.movie.forms import AddMovieForm, MovieEditForm
 from open_movie_data_base.movie.mixins import MustBeMovieDirectorMixin
 from open_movie_data_base.movie.models import Movie
 from open_movie_data_base.utils.func import get_user_favourite_movies, \
-    is_movie_director_and_owner, get_movie_objects, get_general_like
+    is_movie_director_and_owner, get_movie_objects, get_general_like, return_user_review_if_exist
 
 UserModel = get_user_model()
 
@@ -96,6 +96,7 @@ def movie_details(request, slug):
         'actors': get_movie_objects(movie.actors.all()),
         'genres': get_movie_objects(movie.genres.all()),
         'average_rating': movie.averagereviewscore.score,
+        'user_review': return_user_review_if_exist(movie, request.user),
         'reviews': movie.review_set.annotate(likes=Count('reviewlike')).order_by('-likes', 'posted_on')[:3],
         'form': form
     }

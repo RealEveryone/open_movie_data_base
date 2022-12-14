@@ -38,7 +38,7 @@ class MovieGenres(models.Model):
     category = models.CharField(
         max_length=CATEGORY_MAX_LEN,
         validators=[CharValidator(REGEX_PATTERN, ERR_MSG)],
-        blank=True,
+        unique=True
     )
 
     class Meta:
@@ -55,7 +55,7 @@ class Movie(models.Model):
     MOVIE_TITLE_VALIDATOR = CharValidator(MOVIE_TITLE_REGEX_PATTERN, MOVIE_TITLE_ERROR_MSG)
 
     MOVIE_DESCRIPTION_MIN_LEN = 300
-    MOVIE_DESCRIPTION_MAX_LEN = 1200
+    MOVIE_DESCRIPTION_MAX_LEN = 1600
 
     movie_director = models.ForeignKey(
         MovieDirector, on_delete=models.CASCADE
@@ -75,7 +75,7 @@ class Movie(models.Model):
     description = models.CharField(
         validators=[MinLengthValidator(MOVIE_DESCRIPTION_MIN_LEN)],
         max_length=MOVIE_DESCRIPTION_MAX_LEN,
-        help_text='The first 40 characters will be displayed as short description',
+        help_text='The first 250 characters will be displayed as short description',
         error_messages={
             "min_length": 'Movie description must be at least 300 characters',
             'max_length': 'Movie description can only be 1200 characters'

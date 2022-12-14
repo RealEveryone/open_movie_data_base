@@ -10,7 +10,9 @@
     {% for movie in stars_in %}
         <tr>
             <td><a href="{% url 'movie-details' movie.slug %}">{{ movie.title }}</a></td>
-            <td><a href="{% url 'director-details' movie.movie_director.slug %}">{{ movie.movie_director }}</a></td>
+            <td>
+                <a href="{% url 'director-details' movie.movie_director.slug %}">{{ movie.movie_director.get_full_name }}</a>
+            </td>
             <td>{{ movie.averagereviewscore.score|floatformat:1 }}</td>
         </tr>
     {% endfor %}

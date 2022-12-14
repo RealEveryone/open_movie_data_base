@@ -5,8 +5,9 @@
             <div class="col-md-12 col-xl-10">
                 <div class="card shadow-0 border rounded-3">
                     <div class="card-body">
-                        {% for object in object_list %}
-                            <div class="row">
+                        <div class="row">
+                            {% for object in object_list %}
+
                                 <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                                     <div id="{{ object.id }}" class="bg-image hover-zoom ripple rounded ripple-surface">
                                         {% cloudinary object.movie_poster width=200 height=200 %}
@@ -39,9 +40,12 @@
                                         {% endfor %}
                                     </div>
                                     <p class="mb-4 mb-md-0">
-                                        {{ object.description|truncatewords:40 }}
+                                        {{ object.description|truncatechars:250 }}
+
 
                                     </p>
+                                <div  style="padding-left: 290px">Released : {{ object.release_date.year }} year</div>
+
                                 </div>
                                 <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                                     <div class="d-flex flex-column mt-4">
@@ -98,15 +102,18 @@
                                                 </div>
                                             </div>
                                         {% endif %}
-                                        <div style="margin: auto;padding-top: 30px">{% include 'movie/partials/movie_rating_coloring_partial.html' with average_rating=object.averagereviewscore.score %}</div>
+                                        <div >{% include 'movie/partials/movie_rating_coloring_partial.html' with average_rating=object.averagereviewscore.score %}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                        {% endfor %}
+                                <hr>
+                            {% endfor %}
+
+                        </div>
+
+
                         {% if page_obj.has_previous %}
-                            <a href="?page=1">first</a>
-                            <a href="?page{{ page_obj.previous_page_number }}">previous</a>
+                            <a href="?page=1&amp;{{ view.querystring_url }}">first</a>
+                            <a href="?page{{ page_obj.previous_page_number }}&amp;{{ view.querystring_url }}">previous</a>
                         {% endif %}
                         page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
                         {% if page_obj.has_next %}
