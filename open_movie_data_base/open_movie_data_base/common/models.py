@@ -24,7 +24,7 @@ class Review(models.Model):
     user = models.ForeignKey(
         UserModel, on_delete=models.CASCADE
     )
-    posted_on = models.DateField(
+    posted_on = models.DateTimeField(
         auto_now_add=True
     )
 

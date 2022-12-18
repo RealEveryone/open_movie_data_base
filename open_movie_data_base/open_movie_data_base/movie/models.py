@@ -85,7 +85,6 @@ class Movie(models.Model):
     # todo: add validator for description
 
     movie_poster = CloudinaryField(
-        validators=[validate_file_size]
     )
 
     genres = models.ManyToManyField(

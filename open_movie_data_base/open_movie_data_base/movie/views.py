@@ -130,6 +130,9 @@ def movie_edit(request, slug):
 
     if request.method == 'POST':
         form = MovieEditForm(request.POST, request.FILES, instance=movie)
+        if form.is_valid():
+            form.save()
+            return redirect('movie-details', movie.slug)
 
     else:
         form = MovieEditForm(instance=movie)
@@ -137,7 +140,8 @@ def movie_edit(request, slug):
     context = {
         'user': user,
         'form': form,
-        'edit': True
+        'edit': True,
+        'movie': movie
     }
     return render(request, 'movie/edit-movie.html', context=context)
 

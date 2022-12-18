@@ -95,7 +95,7 @@
                                 <tr>
                                     <td>Staring cast</td>
                                     <td>{% for actor in actors %}
-                                        <a href="{% url 'actor-details' actor.slug %}">{{ actor }}</a>
+                                        <a href="{% url 'actor-details' actor.slug %}">{{ actor.get_full_name }}</a>
                                     {% endfor %}</td>
                                 </tr>
                                 <tr>
